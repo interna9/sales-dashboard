@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 # -----------------------------
 # Load data
 # -----------------------------
-df = pd.read_excel(r"C:\Users\mukab\Downloads\Sales.xlsx")
+df = pd.read_excel("Sales.xlsx")
 
 df['order_date'] = pd.to_datetime(df['order_date'])
 df['month'] = df['order_date'].dt.to_period('M').dt.to_timestamp()
