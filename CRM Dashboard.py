@@ -16,7 +16,7 @@ df['profit_margin'] = df['profit'] / df['revenue']
 # Streamlit Page Setup
 # -----------------------------
 st.set_page_config(page_title="Sales Dashboard", layout="wide")
-st.title("📊 Sales Performance Dashboard")
+st.title("Sales Performance Dashboard")
 
 # -----------------------------
 # Slicers (Filters)
@@ -63,7 +63,7 @@ ytd_margin = ytd_profit / ytd_revenue if ytd_revenue != 0 else 0
 # -----------------------------
 # KPI Cards
 # -----------------------------
-st.subheader("📌 Current Month KPIs")
+st.subheader(" Current Month KPIs")
 
 cm1, cm2, cm3, cm4 = st.columns(4)
 cm1.metric("Revenue (CM)", f"${cm_revenue:,.0f}")
@@ -71,7 +71,7 @@ cm2.metric("Profit (CM)", f"${cm_profit:,.0f}")
 cm3.metric("Profit Margin (CM)", f"{cm_margin:.1%}")
 cm4.metric("Units Sold (CM)", f"{cm_units:,.0f}")
 
-st.subheader("📌 Year-to-Date KPIs")
+st.subheader(" Year-to-Date KPIs")
 
 y1, y2, y3, y4 = st.columns(4)
 y1.metric("Revenue (YTD)", f"${ytd_revenue:,.0f}")
@@ -82,7 +82,7 @@ y4.metric("Units Sold (YTD)", f"{ytd_units:,.0f}")
 # -----------------------------
 # Charts
 # -----------------------------
-st.subheader("📈 Monthly Revenue Trend")
+st.subheader("Monthly Revenue Trend")
 fig1, ax1 = plt.subplots(figsize=(10,4))
 sns.lineplot(data=filtered.groupby('month')['revenue'].sum(), ax=ax1, marker='o')
 ax1.set_ylabel("Revenue")
@@ -90,13 +90,13 @@ ax1.set_xlabel("Month")
 plt.xticks(rotation=45)
 st.pyplot(fig1)
 
-st.subheader("📊 Revenue by Region")
+st.subheader(" Revenue by Region")
 fig2, ax2 = plt.subplots(figsize=(10,4))
 sns.barplot(data=filtered.groupby('region')['revenue'].sum().reset_index(),
             x='region', y='revenue', palette="Blues_d", ax=ax2)
 st.pyplot(fig2)
 
-st.subheader("📦 Revenue by Product Category")
+st.subheader(" Revenue by Product Category")
 fig3, ax3 = plt.subplots(figsize=(10,4))
 sns.barplot(
     data=filtered.groupby('product_category')['revenue'].sum().reset_index(),
@@ -106,13 +106,13 @@ plt.xticks(rotation=45)
 st.pyplot(fig3)
 
 # Top 10 / Bottom 10
-st.subheader("🏆 Top 10 Products by Revenue")
+st.subheader("Top 10 Products by Revenue")
 fig4, ax4 = plt.subplots(figsize=(10,4))
 top10 = filtered.groupby('product')['revenue'].sum().sort_values(ascending=False).head(10)
 sns.barplot(x=top10.values, y=top10.index, palette="Blues", ax=ax4)
 st.pyplot(fig4)
 
-st.subheader("⚠️ Bottom 10 Products by Revenue")
+st.subheader(" Bottom 10 Products by Revenue")
 fig5, ax5 = plt.subplots(figsize=(10,4))
 bottom10 = filtered.groupby('product')['revenue'].sum().sort_values().head(10)
 sns.barplot(x=bottom10.values, y=bottom10.index, palette="Reds", ax=ax5)
