@@ -105,15 +105,37 @@ sns.barplot(
 plt.xticks(rotation=45)
 st.pyplot(fig3)
 
-# Top 10 / Bottom 10
+# -----------------------------
+# Top 10 / Bottom 10 Tables
+# -----------------------------
 st.subheader("Top 10 Products by Revenue")
-fig4, ax4 = plt.subplots(figsize=(10,4))
-top10 = filtered.groupby('product')['revenue'].sum().sort_values(ascending=False).head(10)
-sns.barplot(x=top10.values, y=top10.index, palette="Blues", ax=ax4)
-st.pyplot(fig4)
 
-st.subheader(" Bottom 10 Products by Revenue")
-fig5, ax5 = plt.subplots(figsize=(10,4))
-bottom10 = filtered.groupby('product')['revenue'].sum().sort_values().head(10)
-sns.barplot(x=bottom10.values, y=bottom10.index, palette="Reds", ax=ax5)
-st.pyplot(fig5)
+top10 = (
+    filtered.groupby('product')['revenue']
+    .sum()
+    .sort_values(ascending=False)
+    .head(10)
+    .reset_index()
+)
+
+top10['Rank'] = range(1, len(top10) + 1)
+top10['Revenue'] = top10['revenue'].apply(lambda x: f"${x:,.0f}")
+top10 = top10[['Rank', 'product', 'Revenue']]
+
+st.table(top10)
+
+st.subheader("Bottom 10 Products by Revenue")
+
+bottom10 = (
+    filtered.groupby('product')['revenue']
+    .sum()
+    .sort_values()
+    .head(10)
+    .reset_index()
+)
+
+bottom10['Rank'] = range(1, len(bottom10) + 1)
+bottom10['Revenue'] = bottom10['revenue'].apply(lambda x: f"${x:,.0f}")
+bottom10 = bottom10[['Rank', 'product', 'Revenue']]
+
+st.table(bottom10)
