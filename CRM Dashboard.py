@@ -106,7 +106,7 @@ plt.xticks(rotation=45)
 st.pyplot(fig3)
 
 # -----------------------------
-# Top 10 / Bottom 10 Tables
+# Top 10 / Bottom 10 Horizontal Bar Charts
 # -----------------------------
 st.subheader("Top 10 Products by Revenue")
 
@@ -118,11 +118,18 @@ top10 = (
     .reset_index()
 )
 
-top10['Rank'] = range(1, len(top10) + 1)
-top10['Revenue'] = top10['revenue'].apply(lambda x: f"${x:,.0f}")
-top10 = top10[['Rank', 'product', 'Revenue']]
-
-st.table(top10)
+fig_top, ax_top = plt.subplots(figsize=(10, 5))
+sns.barplot(
+    data=top10,
+    x='revenue',
+    y='product',
+    palette="Blues_r",
+    ax=ax_top
+)
+ax_top.set_xlabel("Revenue")
+ax_top.set_ylabel("Product")
+ax_top.set_title("Top 10 Products by Revenue")
+st.pyplot(fig_top)
 
 st.subheader("Bottom 10 Products by Revenue")
 
@@ -134,8 +141,15 @@ bottom10 = (
     .reset_index()
 )
 
-bottom10['Rank'] = range(1, len(bottom10) + 1)
-bottom10['Revenue'] = bottom10['revenue'].apply(lambda x: f"${x:,.0f}")
-bottom10 = bottom10[['Rank', 'product', 'Revenue']]
-
-st.table(bottom10)
+fig_bottom, ax_bottom = plt.subplots(figsize=(10, 5))
+sns.barplot(
+    data=bottom10,
+    x='revenue',
+    y='product',
+    palette="Reds",
+    ax=ax_bottom
+)
+ax_bottom.set_xlabel("Revenue")
+ax_bottom.set_ylabel("Product")
+ax_bottom.set_title("Bottom 10 Products by Revenue")
+st.pyplot(fig_bottom)
